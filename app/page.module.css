@@ -1,0 +1,25 @@
+.page {
+  padding-bottom: var(--space-12);
+}
+
+.hero {
+  text-align: center;
+  padding: var(--space-12) 0;
+  background: linear-gradient(to bottom, var(--surface), var(--background));
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-8);
+}
+
+.title {
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: var(--space-4);
+}
+
+.subtitle {
+  font-size: var(--text-lg);
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
