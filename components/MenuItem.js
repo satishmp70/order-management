@@ -24,12 +24,14 @@ export default function MenuItem({ item }) {
                     <span className={styles.price}>${item.price.toFixed(2)}</span>
                 </div>
                 <p className={styles.description}>{item.description}</p>
-                <button
-                    onClick={() => addToCart(item)}
-                    className={styles.button}
-                >
-                    Add to Cart
-                </button>
+                <div className={styles.actionArea}>
+                    <button
+                        onClick={() => addToCart(item)}
+                        className={styles.addButton}
+                    >
+                        ADD
+                    </button>
+                </div>
             </div>
         </div>
     );

@@ -1,22 +1,37 @@
 .header {
     background-color: var(--surface);
-    border-bottom: 1px solid var(--border);
+    box-shadow: 0 15px 40px -20px rgba(40, 44, 63, 0.15);
     position: sticky;
     top: 0;
-    z-index: 50;
-    padding: var(--space-4) 0;
+    z-index: 1000;
+    padding: 0;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease;
 }
 
 .container {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
+    height: 100%;
 }
 
 .logo {
-    font-size: var(--text-xl);
-    font-weight: 700;
-    letter-spacing: -0.025em;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text-main);
+    transition: transform var(--transition-fast);
+}
+
+.logo:hover {
+    transform: scale(1.05);
 }
 
 .highlight {
@@ -26,43 +41,50 @@
 .nav {
     display: flex;
     align-items: center;
-    gap: var(--space-6);
+    gap: var(--space-8);
 }
 
 .link {
-    color: var(--text-muted);
-    transition: color var(--transition-fast);
-    font-weight: 500;
-}
-
-.link:hover {
-    color: var(--text-main);
-}
-
-.cartBtn {
-    background: var(--secondary);
-    color: white;
-    border: none;
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--radius-full);
-    font-weight: 600;
     display: flex;
     align-items: center;
     gap: var(--space-2);
-    transition: background var(--transition-fast);
+    font-weight: 600;
+    color: var(--text-main);
+    font-size: 16px;
+    padding: var(--space-2) 0;
+    position: relative;
+    cursor: pointer;
+}
+
+.link:hover {
+    color: var(--primary);
+}
+
+.cartBtn {
+    background: transparent;
+    color: var(--text-main);
+    border: none;
+    padding: var(--space-2) var(--space-4);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    transition: all var(--transition-fast);
+    font-size: 16px;
 }
 
 .cartBtn:hover {
-    background: #374151;
-    /* Lighter gray */
+    color: var(--primary);
 }
 
 .badge {
     background: var(--primary);
     color: white;
-    font-size: var(--text-xs);
-    padding: 2px 6px;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 2px 8px;
     border-radius: var(--radius-full);
-    min-width: 20px;
+    min-width: 24px;
     text-align: center;
+    box-shadow: 0 2px 5px rgba(252, 128, 25, 0.4);
 }

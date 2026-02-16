@@ -19,7 +19,7 @@ export default async function OrderPage({ params }) {
 
     return (
         <div style={{ maxWidth: '800px', margin: '0 auto', padding: 'var(--space-8) 0' }}>
-            <h1>Order #{order.id}</h1>
+            <h1>Order #{order.displayId || order.id.slice(0, 8) + '...'}</h1>
             <p style={{ color: 'var(--text-muted)' }}>Placed on {new Date(order.createdAt).toLocaleString()}</p>
 
             <OrderStatus orderId={order.id} initialStatus={order.status} />

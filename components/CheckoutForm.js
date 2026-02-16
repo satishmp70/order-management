@@ -9,13 +9,47 @@ export default function CheckoutForm({ items, total, onSuccess, onBack }) {
         address: '',
         phone: ''
     });
+    const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [submitError, setSubmitError] = useState(null);
+
+    const validate = () => {
+        const newErrors = {};
+        if (!formData.name.trim()) {
+            newErrors.name = 'Name is required';
+        } else if (formData.name.trim().length < 2) {
+            newErrors.name = 'Name must be at least 2 characters';
+        }
+
+        if (!formData.address.trim()) {
+            newErrors.address = 'Delivery address is required';
+        } else if (formData.address.trim().length < 5) {
+            newErrors.address = 'Please enter a full address';
+        }
+
+        if (!formData.phone.trim()) {
+            newErrors.phone = 'Phone number is required';
+        } else if (!/^[\d\s()+-]{7,15}$/.test(formData.phone.trim())) {
+            newErrors.phone = 'Enter a valid phone number';
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleChange = (field, value) => {
+        setFormData({ ...formData, [field]: value });
+        if (errors[field]) {
+            setErrors({ ...errors, [field]: null });
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!validate()) return;
+
         setLoading(true);
-        setError(null);
+        setSubmitError(null);
 
         const orderPayload = {
             customer: formData,
@@ -34,58 +68,59 @@ export default function CheckoutForm({ items, total, onSuccess, onBack }) {
             const order = await res.json();
             onSuccess(order.id);
         } catch (err) {
-            setError('Something went wrong. Please try again.');
+            setSubmitError('Something went wrong. Please try again.');
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <form onSubmit={handleSubmit} className={styles.form}>
+        <form onSubmit={handleSubmit} className={styles.form} noValidate>
             <div className={styles.field}>
-                <label className={styles.label}>Name</label>
+                <label className={styles.label}>Full Name</label>
                 <input
-                    required
-                    className={styles.input}
+                    className={`${styles.input} ${errors.name ? styles.inputError : ''}`}
                     value={formData.name}
-                    onChange={e => setFormData({ ...formData, name: e.target.value })}
+                    onChange={e => handleChange('name', e.target.value)}
                     placeholder="John Doe"
                 />
+                {errors.name && <span className={styles.fieldError}>{errors.name}</span>}
             </div>
             <div className={styles.field}>
-                <label className={styles.label}>Address</label>
+                <label className={styles.label}>Delivery Address</label>
                 <textarea
-                    required
-                    className={styles.textarea}
+                    className={`${styles.textarea} ${errors.address ? styles.inputError : ''}`}
                     value={formData.address}
-                    onChange={e => setFormData({ ...formData, address: e.target.value })}
-                    placeholder="123 Main St..."
+                    onChange={e => handleChange('address', e.target.value)}
+                    placeholder="123 Main St, Apt 4B..."
                 />
+                {errors.address && <span className={styles.fieldError}>{errors.address}</span>}
             </div>
             <div className={styles.field}>
-                <label className={styles.label}>Phone</label>
+                <label className={styles.label}>Phone Number</label>
                 <input
-                    required
                     type="tel"
-                    className={styles.input}
+                    className={`${styles.input} ${errors.phone ? styles.inputError : ''}`}
                     value={formData.phone}
-                    onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                    onChange={e => handleChange('phone', e.target.value)}
                     placeholder="(555) 123-4567"
                 />
+                {errors.phone && <span className={styles.fieldError}>{errors.phone}</span>}
             </div>
 
-            {error && <div className={styles.error}>{error}</div>}
+            {submitError && <div className={styles.error}>{submitError}</div>}
 
             <div className={styles.summary}>
-                <p>Total: <strong>${total.toFixed(2)}</strong></p>
+                <span>Total</span>
+                <span>${total.toFixed(2)}</span>
             </div>
 
             <div className={styles.actions}>
-                <button type="button" onClick={onBack} className={styles.backBtn} disabled={loading}>
-                    Back
-                </button>
                 <button type="submit" className={styles.submitBtn} disabled={loading}>
                     {loading ? 'Placing Order...' : 'Confirm Order'}
+                </button>
+                <button type="button" onClick={onBack} className={styles.backBtn} disabled={loading}>
+                    ← Back to Cart
                 </button>
             </div>
         </form>

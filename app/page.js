@@ -5,8 +5,10 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <div className={styles.hero}>
-        <h1 className={styles.title}>Delicious Food, Delivered To You</h1>
-        <p className={styles.subtitle}>Choose your favorite meal from our premium selection.</p>
+        <div className={styles.heroContent}>
+          <h1 className={styles.title}>Hungry?<br />Order & Eat.</h1>
+          <p className={styles.subtitle}>Order food from favourite restaurants near you.</p>
+        </div>
       </div>
       <MenuDisplay />
     </div>
